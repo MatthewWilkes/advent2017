@@ -6,12 +6,12 @@ fn main() {
     io::stdin().read_line(&mut captcha).expect("Failed to read captcha");
     // Trim off the newline at the end
     captcha = captcha.trim().to_string();
+    let skip_num = captcha.len() / 2;
     // Create a clone of the string so we can manipulate it
-    // Then reduce the string to graphemes, skip one
-    // We now have an iterable of chars excluding the first 
-    // Then chain it to an iterator containing only the first char
-    // This gives us (1, 2, 3, 4, ..., 0)
-    let offset_captcha = captcha.chars().skip(1).chain(captcha.chars().take(1));
+    // Then reduce the string to graphemes, skip the appropriate number
+    // We now have an iterable of chars rotated some amount
+    // This gives us (3, 4, 5, 0, 1, 2)
+    let offset_captcha = captcha.chars().skip(skip_num).chain(captcha.chars().take(skip_num));
 
     let mut total = 0;
 
