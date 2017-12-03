@@ -11,10 +11,15 @@ fn main() {
             let value: u32 = x.parse().expect("Should be a number");
             return value;
         }).collect();
-        println!("Nums are {:?}", nums);
-        let max = nums.iter().max();
-        let min = nums.iter().min();
-        total += max.unwrap() - min.unwrap();
+        for (i, num_1) in nums.iter().enumerate() {
+            for num_2 in nums.iter().skip(i + 1) {
+                if num_1 % num_2 == 0 || num_2 % num_1 == 0 {
+                    let max = num_1.max(num_2);
+                    let min = num_1.min(num_2);
+                    total += max / min;
+                }
+            }
+        }
     }
     println!("Checksum is {}", total);
 }
