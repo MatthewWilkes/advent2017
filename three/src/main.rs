@@ -1,5 +1,10 @@
 use std::io;
+use std::collections::HashMap;
 
+// Debug = printable
+// Hash, Eq and PartialEq = Hashmap
+// Clone, Copy = Don't edit in place
+#[derive(Debug, Hash, Eq, PartialEq, Clone, Copy)]
 struct Coordinate {
     pub x: i32,
     pub y: i32,
@@ -17,8 +22,33 @@ fn main() {
     let mut part = 0;
     // The distances are 1, 1, 2, 2, 3, 3, 4, 4 etc
     let mut step = 0;
-    for i in 0..target_number-1 {
+    // A hashmap of coordinate to the value at that coord
+    let mut values: HashMap<Coordinate, u32> = HashMap::new();
+
+    // Initialise the home with 1
+    values.insert(coord.clone(), 1);
+
+    for i in 0..target_number {
         step += 1;
+
+        let mut part_value: u32 = 0;
+        for x_offset in -1..2 {
+            for y_offset in -1..2 {
+                let offset_coord = Coordinate {
+                    x: coord.x + x_offset,
+                    y: coord.y + y_offset,
+                };
+                let offset_value = values.get(&offset_coord);
+                if offset_value.is_some() {
+                    part_value += offset_value.unwrap();
+                }
+            }
+        }
+        values.insert(coord.clone(), part_value);
+        if part_value > target_number {
+            println!("Memory value at step {} is {}", i, values.get(&coord).unwrap());
+            break;
+        }
         // The part remainder 4 is the direction we are going
         match part % 4 {
             0 => coord.x += 1,
@@ -33,7 +63,7 @@ fn main() {
             part += 1;
         }
     }
-    println!("Memory address {} is at {},{}", target_number, coord.x, coord.y);
+
     let distance = coord.x.abs() + coord.y.abs();
-    println!("Manhattan distance is {}", distance);
+    //println!("Manhattan distance is {}", distance);
 }
