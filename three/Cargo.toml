@@ -1,0 +1,6 @@
+[package]
+name = "three"
+version = "0.1.0"
+authors = ["Matthew Wilkes <git@matthewwilkes.name>"]
+
+[dependencies]
