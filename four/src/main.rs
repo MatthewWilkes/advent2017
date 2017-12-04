@@ -1,12 +1,14 @@
 use std::io::{self, Read};
 
 fn validate_password(passphrase: &str) -> bool {
-    let mut words: Vec<&str> = Vec::new();
+    let mut words: Vec<Vec<char>> = Vec::new();
     for word in passphrase.split_whitespace() {
+        let mut word: Vec<char> = word.chars().collect();
+        word.sort_by(|a, b| a.cmp(b));
         if words.contains(&word) {
             return false;
         } else {
-            words.push(&word);
+            words.push(word);
         }
     }
     return true;
