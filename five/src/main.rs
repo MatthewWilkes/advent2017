@@ -11,7 +11,11 @@ fn main() {
     while pc < offsets.len() {
         let instruction = offsets[pc];
         steps += 1;
-        offsets[pc] += 1;
+        if instruction >= 3 {
+            offsets[pc] -= 1 
+        } else {
+            offsets[pc] += 1;
+        }
         //println!("Adding {} to {}", instruction, pc);
         //println!("PC is {:?}, memory is {:?}", pc, offsets);
         pc = ((pc as i32) + instruction) as usize;
