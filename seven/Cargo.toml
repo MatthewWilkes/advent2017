@@ -1,0 +1,8 @@
+[package]
+name = "seven"
+version = "0.1.0"
+authors = ["Matthew Wilkes <git@matthewwilkes.name>"]
+
+[dependencies]
+regex = "0.2"
+indextree = "1.0"
