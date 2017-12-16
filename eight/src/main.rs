@@ -20,6 +20,8 @@ fn main() {
     let mut stdin_open = stdin.lock();
     stdin_open.read_to_string(&mut instructions).expect("Couldn't read instruction input");
 
+    let mut max_seen = 0;
+
     for instruction in instructions.lines() {
         let mut parts = instruction.split_whitespace();
         let register = parts.next().expect("Couldn't extract register");
@@ -43,10 +45,15 @@ fn main() {
             }
             registers.insert(register.clone(), register_value);
         }
+        let current_max = registers.values().max().cloned().unwrap_or(0);
+        if current_max > max_seen {
+            max_seen = current_max;
+        }
     }
     let mut register_pairs: Vec<(&&str, &i32)> = registers.iter().collect();
     register_pairs.sort_by_key(|val| val.1);
     for pair in register_pairs {
         println!("{} is {}", pair.0, pair.1);
     }
+    println!("Largest ever was {}", max_seen);
 }
